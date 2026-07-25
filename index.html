@@ -144,29 +144,29 @@
     <!-- Main Heading -->
     <h2>Jashn-e-Wiladat Se Fikr-e-Wiladat</h2>
     
-    <form id="regForm" onsubmit="handleFormSubmit(event)" novalidate>
+    <form id="regForm" action="https://formspree.io/f/mlgqoopk" method="POST" onsubmit="handleFormSubmit(event)" novalidate>
         <!-- Full Name -->
         <div class="form-group">
             <label for="name">Full Name (Pura Naam): *</label>
-            <input type="text" id="name" name="name" placeholder="Apna naam likhein">
+            <input type="text" id="name" name="Full Name" placeholder="Apna naam likhein">
         </div>
 
         <!-- Father Name -->
         <div class="form-group">
             <label for="fname">Father's Name (Walid Ka Naam): *</label>
-            <input type="text" id="fname" name="fname" placeholder="Walid ka naam likhein">
+            <input type="text" id="fname" name="Father Name" placeholder="Walid ka naam likhein">
         </div>
 
         <!-- WhatsApp Number -->
         <div class="form-group">
             <label for="whatsapp">WhatsApp Number: *</label>
-            <input type="tel" id="whatsapp" name="whatsapp" placeholder="Apna WhatsApp number likhein">
+            <input type="tel" id="whatsapp" name="WhatsApp Number" placeholder="Apna WhatsApp number likhein">
         </div>
 
         <!-- Address -->
         <div class="form-group">
             <label for="address">Address (Pata): *</label>
-            <textarea id="address" name="address" placeholder="Apna pura address likhein"></textarea>
+            <textarea id="address" name="Address" placeholder="Apna pura address likhein"></textarea>
         </div>
 
         <!-- Payment & QR Code Section -->
@@ -180,7 +180,7 @@
             <!-- Direct Image from ImgBB -->
             <img src="https://i.ibb.co/Z6v9zYY9/image.jpg" alt="Registration Fee QR Code"><br>
 
-            <!-- Direct Payment Button with UPI ID & Fixed Amount (313) -->
+            <!-- Direct Payment Button -->
             <p style="margin: 5px 0; font-size: 12px; color: #555;">Agar aap isi phone se payment kar rahe hain toh niche button par click karein:</p>
             <a href="upi://pay?pa=901201919@ybl&pn=Jashn-e-Wiladat&am=313&cu=INR" class="pay-btn">📲 Click to Pay ₹313 via GPay / PhonePe / Paytm</a>
         </div>
@@ -188,11 +188,11 @@
         <!-- Transaction Ref / UTR Number -->
         <div class="form-group">
             <label for="txn">Payment Reference / UTR No. (Payment karne ke baad Ref/UTR No. zaroor likhein): *</label>
-            <input type="text" id="txn" name="txn" placeholder="Payment UTR / Transaction ID yahan likhein">
+            <input type="text" id="txn" name="Transaction ID / UTR" placeholder="Payment UTR / Transaction ID yahan likhein">
         </div>
 
         <!-- Submit Button -->
-        <button type="submit" class="submit-btn">Submit Registration</button>
+        <button type="submit" id="submitBtn" class="submit-btn">Submit Registration</button>
     </form>
 
     <!-- Success / Error Message Box -->
@@ -201,58 +201,78 @@
 
 <script>
 function handleFormSubmit(event) {
-    event.preventDefault(); // Stop page reload
+    event.preventDefault();
 
+    const form = document.getElementById('regForm');
     const name = document.getElementById('name').value.trim();
     const fname = document.getElementById('fname').value.trim();
     const whatsapp = document.getElementById('whatsapp').value.trim();
     const address = document.getElementById('address').value.trim();
     const txn = document.getElementById('txn').value.trim();
     const statusMsg = document.getElementById('statusMsg');
+    const submitBtn = document.getElementById('submitBtn');
 
-    // Validations with "Baraye Mehrbani"
+    // Validations
     if (!name) {
-        statusMsg.className = "status-msg status-error";
-        statusMsg.innerText = "❌ Aapne Pura Naam nahi likha hai! Baraye mehrbani apna naam bhar kar submit karein.";
-        statusMsg.style.display = "block";
+        showError("❌ Aapne Pura Naam nahi likha hai! Baraye mehrbani apna naam bhar kar submit karein.");
         return;
     }
 
     if (!fname) {
-        statusMsg.className = "status-msg status-error";
-        statusMsg.innerText = "❌ Aapne Walid Ka Naam nahi likha hai! Baraye mehrbani ise bhar kar submit karein.";
-        statusMsg.style.display = "block";
+        showError("❌ Aapne Walid Ka Naam nahi likha hai! Baraye mehrbani ise bhar kar submit karein.");
         return;
     }
 
     if (!whatsapp || whatsapp.length < 10) {
-        statusMsg.className = "status-msg status-error";
-        statusMsg.innerText = "❌ Aapne sahi WhatsApp number nahi daala hai! Baraye mehrbani 10-digit mobile number likhein.";
-        statusMsg.style.display = "block";
+        showError("❌ Aapne sahi WhatsApp number nahi daala hai! Baraye mehrbani 10-digit mobile number likhein.");
         return;
     }
 
     if (!address) {
-        statusMsg.className = "status-msg status-error";
-        statusMsg.innerText = "❌ Aapne Address nahi likha hai! Baraye mehrbani apna address bhar kar submit karein.";
-        statusMsg.style.display = "block";
+        showError("❌ Aapne Address nahi likha hai! Baraye mehrbani apna address bhar kar submit karein.");
         return;
     }
 
     if (!txn) {
-        statusMsg.className = "status-msg status-error";
-        statusMsg.innerText = "❌ Aapne Payment nahi ki hai ya UTR Number nahi dala hai! Registration complete karne ke liye baraye mehrbani pehle payment karke Transaction/UTR ID yahan likhein.";
-        statusMsg.style.display = "block";
+        showError("❌ Aapne Payment nahi ki hai ya UTR Number nahi dala hai! Registration complete karne ke liye baraye mehrbani pehle payment karke Transaction/UTR ID yahan likhein.");
         return;
     }
 
-    // Success response if all inputs are correct
-    statusMsg.className = "status-msg status-success";
-    statusMsg.innerText = "🎉 Mubarak ho! Aapka registration safalta-purvak (successfully) submit ho gaya hai.";
-    statusMsg.style.display = "block";
+    // Submit process
+    submitBtn.innerText = "Submitting...";
+    submitBtn.disabled = true;
 
-    // Reset form fields
-    document.getElementById('regForm').reset();
+    const data = new FormData(form);
+
+    fetch(form.action, {
+        method: 'POST',
+        body: data,
+        headers: {
+            'Accept': 'application/json'
+        }
+    }).then(response => {
+        if (response.ok) {
+            statusMsg.className = "status-msg status-success";
+            statusMsg.innerText = "🎉 Mubarak ho! Aapka registration safalta-purvak (successfully) submit ho gaya hai.";
+            statusMsg.style.display = "block";
+            form.reset();
+        } else {
+            showError("❌ Submitting me koi problem hui hai, baraye mehrbani dubara koshish karein.");
+        }
+        submitBtn.innerText = "Submit Registration";
+        submitBtn.disabled = false;
+    }).catch(error => {
+        showError("❌ Internet connection check karein aur dubara submit karein.");
+        submitBtn.innerText = "Submit Registration";
+        submitBtn.disabled = false;
+    });
+}
+
+function showError(msg) {
+    const statusMsg = document.getElementById('statusMsg');
+    statusMsg.className = "status-msg status-error";
+    statusMsg.innerText = msg;
+    statusMsg.style.display = "block";
 }
 </script>
 
