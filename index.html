@@ -1,193 +1,126 @@
 <!DOCTYPE html>
-<html lang="hi">
+<html lang="ur" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Course Registration Form</title>
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
-
-    body {
-      background-color: #f4f7f6;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 20px;
-    }
-
-    .form-container {
-      background: #ffffff;
-      width: 100%;
-      max-width: 480px;
-      padding: 25px;
-      border-radius: 12px;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    }
-
-    .form-header {
-      text-align: center;
-      margin-bottom: 20px;
-    }
-
-    .form-header h2 {
-      color: #1a365d;
-      font-size: 22px;
-      margin-bottom: 5px;
-    }
-
-    .form-header p {
-      color: #666;
-      font-size: 14px;
-    }
-
-    .form-group {
-      margin-bottom: 18px;
-    }
-
-    .form-group label {
-      display: block;
-      margin-bottom: 6px;
-      font-weight: 600;
-      color: #333;
-      font-size: 14px;
-    }
-
-    .form-group input, .form-group select {
-      width: 100%;
-      padding: 10px 12px;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      font-size: 14px;
-      outline: none;
-      transition: border-color 0.2s;
-    }
-
-    .form-group input:focus {
-      border-color: #2b6cb0;
-    }
-
-    /* Payment Section Styling */
-    .payment-box {
-      background: #f8fafc;
-      border: 2px dashed #cbd5e0;
-      border-radius: 10px;
-      padding: 20px;
-      text-align: center;
-      margin-bottom: 20px;
-    }
-
-    .payment-box h3 {
-      color: #2b6cb0;
-      font-size: 16px;
-      margin-bottom: 8px;
-    }
-
-    .fee-badge {
-      display: inline-block;
-      background: #e2e8f0;
-      color: #2d3748;
-      font-weight: bold;
-      padding: 5px 12px;
-      border-radius: 20px;
-      font-size: 14px;
-      margin-bottom: 15px;
-    }
-
-    .qr-code-img {
-      width: 220px;
-      height: 220px;
-      object-fit: contain;
-      border-radius: 8px;
-      border: 1px solid #e2e8f0;
-      background: #fff;
-      padding: 5px;
-    }
-
-    .payment-instruction {
-      font-size: 13px;
-      color: #4a5568;
-      margin-top: 10px;
-      line-height: 1.4;
-    }
-
-    .submit-btn {
-      width: 100%;
-      background-color: #2b6cb0;
-      color: white;
-      padding: 12px;
-      border: none;
-      border-radius: 6px;
-      font-size: 16px;
-      font-weight: bold;
-      cursor: pointer;
-      transition: background-color 0.2s;
-    }
-
-    .submit-btn:hover {
-      background-color: #2c5282;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jashn-e-Wiladat Se Fikr-e-Wiladat - Registration Form</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            background-color: #f4f7f6;
+            margin: 0;
+            padding: 20px;
+            direction: ltr; /* Layout for input readability */
+        }
+        .form-container {
+            max-width: 500px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        h2 {
+            text-align: center;
+            color: #1a5f7a;
+            margin-bottom: 20px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #333;
+        }
+        input[type="text"],
+        input[type="tel"],
+        textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+        textarea {
+            resize: vertical;
+            height: 80px;
+        }
+        .qr-section {
+            text-align: center;
+            margin: 20px 0;
+            padding: 15px;
+            background: #eef7f6;
+            border-radius: 8px;
+            border: 1px dashed #1a5f7a;
+        }
+        .qr-section img {
+            max-width: 180px;
+            height: auto;
+            border-radius: 6px;
+            margin-top: 10px;
+        }
+        .submit-btn {
+            width: 100%;
+            background-color: #1a5f7a;
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .submit-btn:hover {
+            background-color: #13465a;
+        }
+    </style>
 </head>
 <body>
 
-  <div class="form-container">
-    <div class="form-header">
-      <h2>Registration Form</h2>
-      <p>Kripya apni sahi jankari bharein</p>
-    </div>
-
-    <form action="#" method="POST" enctype="multipart/form-data">
-      
-      <!-- Student Details -->
-      <div class="form-group">
-        <label for="fullname">Pura Naam (Full Name) *</label>
-        <input type="text" id="fullname" name="fullname" placeholder="Apna pura naam likhein" required>
-      </div>
-
-      <div class="form-group">
-        <label for="mobile">Mobile / WhatsApp Number *</label>
-        <input type="tel" id="mobile" name="mobile" placeholder="10 digit ka number" required pattern="[0-9]{10}">
-      </div>
-
-      <div class="form-group">
-        <label for="city">Sahar / Zila (City/District) *</label>
-        <input type="text" id="city" name="city" placeholder="Apne sahar ka naam likhein" required>
-      </div>
-
-      <!-- Payment Section -->
-      <div class="payment-box">
-        <h3>Payment QR Code</h3>
-        <div class="fee-badge">Registration Fees: ₹313</div>
-        
-        <div>
-          <img src="https://ibb.co/Z6v9zYY9" alt="Registration Fees QR Code" class="qr-code-img">
+<div class="form-container">
+    <h2>Jashn-e-Wiladat Se Fikr-e-Wiladat</h2>
+    <form>
+        <!-- Full Name -->
+        <div class="form-group">
+            <label for="name">Full Name (Pura Naam):</label>
+            <input type="text" id="name" name="name" placeholder="Apna naam likhein" required>
         </div>
-        
-        <p class="payment-instruction">
-          GPay / PhonePe / Paytm se QR Code scan karke <strong>₹313</strong> pay karein aur Transaction ID niche fill karein.
-        </p>
-      </div>
 
-      <!-- Payment Verification -->
-      <div class="form-group">
-        <label for="utr">Transaction ID / UTR Number *</label>
-        <input type="text" id="utr" name="utr" placeholder="12 digit ka UTR/Ref number" required>
-      </div>
+        <!-- Father Name -->
+        <div class="form-group">
+            <label for="fname">Father's Name (Walid Ka Naam):</label>
+            <input type="text" id="fname" name="fname" placeholder="Walid ka naam likhein" required>
+        </div>
 
-      <div class="form-group">
-        <label for="screenshot">Payment Screenshot Upload Karein *</label>
-        <input type="file" id="screenshot" name="screenshot" accept="image/*" required>
-      </div>
+        <!-- Mobile Number -->
+        <div class="form-group">
+            <label for="mobile">Mobile Number:</label>
+            <input type="tel" id="mobile" name="mobile" placeholder="Mobile number likhein" required>
+        </div>
 
-      <button type="submit" class="submit-btn">Submit Registration</button>
-      
+        <!-- Address Only -->
+        <div class="form-group">
+            <label for="address">Address (Pata):</label>
+            <textarea id="address" name="address" placeholder="Apna pura address likhein" required></textarea>
+        </div>
+
+        <!-- QR Code Section -->
+        <div class="qr-section">
+            <label>Payment / Registration QR Code:</label><br>
+            <!-- QR Image Placeholder -->
+            <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=Registration" alt="QR Code">
+            <p style="font-size: 12px; color: #666; margin-top: 5px;">Scan QR Code for details / payment</p>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" class="submit-btn">Submit Registration</button>
     </form>
-  </div>
+</div>
 
 </body>
 </html>
