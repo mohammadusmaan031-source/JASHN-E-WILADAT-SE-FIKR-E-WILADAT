@@ -89,7 +89,7 @@
             display: inline-block;
             background-color: #28a745;
             color: white;
-            padding: 10px 20px;
+            padding: 12px 20px;
             text-decoration: none;
             border-radius: 6px;
             font-weight: bold;
@@ -175,14 +175,14 @@
                 ye mamuli si registration fees sanjeeda aur paband logon ko jodne aur management ke liye li ja rahi h
             </div>
 
-            <label style="font-size: 15px; color: #333; font-weight: bold;">Scan & Pay Registration Fee:</label><br>
+            <label style="font-size: 15px; color: #333; font-weight: bold;">Scan & Pay Registration Fee (₹313):</label><br>
             
             <!-- Direct Image from ImgBB -->
             <img src="https://i.ibb.co/Z6v9zYY9/image.jpg" alt="Registration Fee QR Code"><br>
 
-            <!-- Direct Pay Button for same phone users -->
+            <!-- Direct Payment Button with UPI ID & Fixed Amount (313) -->
             <p style="margin: 5px 0; font-size: 12px; color: #555;">Agar aap isi phone se payment kar rahe hain toh niche button par click karein:</p>
-            <a href="https://ibb.co/Z6v9zYY9" target="_blank" class="pay-btn">📲 Click to Pay Directly / Open App</a>
+            <a href="upi://pay?pa=901201919@ybl&pn=Jashn-e-Wiladat&am=313&cu=INR" class="pay-btn">📲 Click to Pay ₹313 via GPay / PhonePe / Paytm</a>
         </div>
 
         <!-- Transaction Ref / UTR Number -->
@@ -210,38 +210,38 @@ function handleFormSubmit(event) {
     const txn = document.getElementById('txn').value.trim();
     const statusMsg = document.getElementById('statusMsg');
 
-    // Step-by-step specific validations
+    // Validations with "Baraye Mehrbani"
     if (!name) {
         statusMsg.className = "status-msg status-error";
-        statusMsg.innerText = "❌ Aapne Pura Naam nahi likha hai! Kripya apna naam bhar kar submit karein.";
+        statusMsg.innerText = "❌ Aapne Pura Naam nahi likha hai! Baraye mehrbani apna naam bhar kar submit karein.";
         statusMsg.style.display = "block";
         return;
     }
 
     if (!fname) {
         statusMsg.className = "status-msg status-error";
-        statusMsg.innerText = "❌ Aapne Walid Ka Naam nahi likha hai! Kripya ise bhar kar submit karein.";
+        statusMsg.innerText = "❌ Aapne Walid Ka Naam nahi likha hai! Baraye mehrbani ise bhar kar submit karein.";
         statusMsg.style.display = "block";
         return;
     }
 
     if (!whatsapp || whatsapp.length < 10) {
         statusMsg.className = "status-msg status-error";
-        statusMsg.innerText = "❌ Aapne sahi WhatsApp number nahi daala hai! Kripya 10-digit mobile number likhein.";
+        statusMsg.innerText = "❌ Aapne sahi WhatsApp number nahi daala hai! Baraye mehrbani 10-digit mobile number likhein.";
         statusMsg.style.display = "block";
         return;
     }
 
     if (!address) {
         statusMsg.className = "status-msg status-error";
-        statusMsg.innerText = "❌ Aapne Address nahi likha hai! Kripya apna address bhar kar submit karein.";
+        statusMsg.innerText = "❌ Aapne Address nahi likha hai! Baraye mehrbani apna address bhar kar submit karein.";
         statusMsg.style.display = "block";
         return;
     }
 
     if (!txn) {
         statusMsg.className = "status-msg status-error";
-        statusMsg.innerText = "❌ Aapne Payment nahi ki hai ya UTR Number nahi dala hai! Registration complete karne ke liye pehle payment karke Transaction/UTR ID yahan likhein.";
+        statusMsg.innerText = "❌ Aapne Payment nahi ki hai ya UTR Number nahi dala hai! Registration complete karne ke liye baraye mehrbani pehle payment karke Transaction/UTR ID yahan likhein.";
         statusMsg.style.display = "block";
         return;
     }
