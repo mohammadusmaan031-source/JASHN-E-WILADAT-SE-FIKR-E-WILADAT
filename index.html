@@ -22,9 +22,18 @@
             border-radius: 12px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.1);
         }
+        .top-subheading {
+            text-align: center;
+            color: #000000;
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 5px;
+            letter-spacing: 0.5px;
+        }
         h2 {
             text-align: center;
             color: #1a5f7a;
+            margin-top: 0;
             margin-bottom: 20px;
         }
         .form-group {
@@ -76,6 +85,20 @@
             margin: 10px 0;
             border: 1px solid #ddd;
         }
+        .pay-btn {
+            display: inline-block;
+            background-color: #28a745;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: bold;
+            margin-top: 10px;
+            font-size: 14px;
+        }
+        .pay-btn:hover {
+            background-color: #218838;
+        }
         .submit-btn {
             width: 100%;
             background-color: #1a5f7a;
@@ -90,40 +113,64 @@
         .submit-btn:hover {
             background-color: #13465a;
         }
+        .status-msg {
+            display: none;
+            padding: 12px;
+            margin-top: 15px;
+            border-radius: 6px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        .status-success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .status-error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
     </style>
 </head>
 <body>
 
 <div class="form-container">
+    <!-- Top Black Sub-heading -->
+    <div class="top-subheading">12 din ka online Tarbiyat-e-Mustafa Course</div>
+    
+    <!-- Main Heading -->
     <h2>Jashn-e-Wiladat Se Fikr-e-Wiladat</h2>
-    <form>
+    
+    <form id="regForm" onsubmit="handleFormSubmit(event)" novalidate>
         <!-- Full Name -->
         <div class="form-group">
-            <label for="name">Full Name (Pura Naam):</label>
-            <input type="text" id="name" name="name" placeholder="Apna naam likhein" required>
+            <label for="name">Full Name (Pura Naam): *</label>
+            <input type="text" id="name" name="name" placeholder="Apna naam likhein">
         </div>
 
         <!-- Father Name -->
         <div class="form-group">
-            <label for="fname">Father's Name (Walid Ka Naam):</label>
-            <input type="text" id="fname" name="fname" placeholder="Walid ka naam likhein" required>
+            <label for="fname">Father's Name (Walid Ka Naam): *</label>
+            <input type="text" id="fname" name="fname" placeholder="Walid ka naam likhein">
         </div>
 
         <!-- WhatsApp Number -->
         <div class="form-group">
-            <label for="whatsapp">WhatsApp Number:</label>
-            <input type="tel" id="whatsapp" name="whatsapp" placeholder="Apna WhatsApp number likhein" required>
+            <label for="whatsapp">WhatsApp Number: *</label>
+            <input type="tel" id="whatsapp" name="whatsapp" placeholder="Apna WhatsApp number likhein">
         </div>
 
         <!-- Address -->
         <div class="form-group">
-            <label for="address">Address (Pata):</label>
-            <textarea id="address" name="address" placeholder="Apna pura address likhein" required></textarea>
+            <label for="address">Address (Pata): *</label>
+            <textarea id="address" name="address" placeholder="Apna pura address likhein"></textarea>
         </div>
 
         <!-- Payment & QR Code Section -->
         <div class="qr-section">
-            <!-- Mandatory Note -->
             <div class="fee-note">
                 ye mamuli si registration fees sanjeeda aur paband logon ko jodne aur management ke liye li ja rahi h
             </div>
@@ -131,15 +178,83 @@
             <label style="font-size: 15px; color: #333; font-weight: bold;">Scan & Pay Registration Fee:</label><br>
             
             <!-- Direct Image from ImgBB -->
-            <img src="https://i.ibb.co/Z6v9zYY9/image.jpg" alt="Registration Fee QR Code">
-            
-            <p style="font-size: 12px; color: #666; margin-top: 5px;">QR code scan karke fees pay karein aur Submit button par click karein.</p>
+            <img src="https://i.ibb.co/Z6v9zYY9/image.jpg" alt="Registration Fee QR Code"><br>
+
+            <!-- Direct Pay Button for same phone users -->
+            <p style="margin: 5px 0; font-size: 12px; color: #555;">Agar aap isi phone se payment kar rahe hain toh niche button par click karein:</p>
+            <a href="https://ibb.co/Z6v9zYY9" target="_blank" class="pay-btn">📲 Click to Pay Directly / Open App</a>
+        </div>
+
+        <!-- Transaction Ref / UTR Number -->
+        <div class="form-group">
+            <label for="txn">Payment Reference / UTR No. (Payment karne ke baad Ref/UTR No. zaroor likhein): *</label>
+            <input type="text" id="txn" name="txn" placeholder="Payment UTR / Transaction ID yahan likhein">
         </div>
 
         <!-- Submit Button -->
         <button type="submit" class="submit-btn">Submit Registration</button>
     </form>
+
+    <!-- Success / Error Message Box -->
+    <div id="statusMsg" class="status-msg"></div>
 </div>
+
+<script>
+function handleFormSubmit(event) {
+    event.preventDefault(); // Stop page reload
+
+    const name = document.getElementById('name').value.trim();
+    const fname = document.getElementById('fname').value.trim();
+    const whatsapp = document.getElementById('whatsapp').value.trim();
+    const address = document.getElementById('address').value.trim();
+    const txn = document.getElementById('txn').value.trim();
+    const statusMsg = document.getElementById('statusMsg');
+
+    // Step-by-step specific validations
+    if (!name) {
+        statusMsg.className = "status-msg status-error";
+        statusMsg.innerText = "❌ Aapne Pura Naam nahi likha hai! Kripya apna naam bhar kar submit karein.";
+        statusMsg.style.display = "block";
+        return;
+    }
+
+    if (!fname) {
+        statusMsg.className = "status-msg status-error";
+        statusMsg.innerText = "❌ Aapne Walid Ka Naam nahi likha hai! Kripya ise bhar kar submit karein.";
+        statusMsg.style.display = "block";
+        return;
+    }
+
+    if (!whatsapp || whatsapp.length < 10) {
+        statusMsg.className = "status-msg status-error";
+        statusMsg.innerText = "❌ Aapne sahi WhatsApp number nahi daala hai! Kripya 10-digit mobile number likhein.";
+        statusMsg.style.display = "block";
+        return;
+    }
+
+    if (!address) {
+        statusMsg.className = "status-msg status-error";
+        statusMsg.innerText = "❌ Aapne Address nahi likha hai! Kripya apna address bhar kar submit karein.";
+        statusMsg.style.display = "block";
+        return;
+    }
+
+    if (!txn) {
+        statusMsg.className = "status-msg status-error";
+        statusMsg.innerText = "❌ Aapne Payment nahi ki hai ya UTR Number nahi dala hai! Registration complete karne ke liye pehle payment karke Transaction/UTR ID yahan likhein.";
+        statusMsg.style.display = "block";
+        return;
+    }
+
+    // Success response if all inputs are correct
+    statusMsg.className = "status-msg status-success";
+    statusMsg.innerText = "🎉 Mubarak ho! Aapka registration safalta-purvak (successfully) submit ho gaya hai.";
+    statusMsg.style.display = "block";
+
+    // Reset form fields
+    document.getElementById('regForm').reset();
+}
+</script>
 
 </body>
 </html>
