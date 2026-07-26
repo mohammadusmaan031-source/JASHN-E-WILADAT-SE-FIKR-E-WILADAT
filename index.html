@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ur">
 <head>
@@ -47,6 +48,7 @@
         }
         input[type="text"],
         input[type="tel"],
+        input[type="file"],
         textarea {
             width: 100%;
             padding: 10px;
@@ -144,7 +146,7 @@
     <!-- Main Heading -->
     <h2>Jashn-e-Wiladat Se Fikr-e-Wiladat</h2>
     
-    <form id="regForm" action="https://formspree.io/f/mlgqoopk" method="POST" onsubmit="handleFormSubmit(event)" novalidate>
+    <form id="regForm" action="https://formspree.io/f/mlgqoopk" method="POST" enctype="multipart/form-data" onsubmit="handleFormSubmit(event)" novalidate>
         <!-- Full Name -->
         <div class="form-group">
             <label for="name">Full Name (Pura Naam): *</label>
@@ -185,10 +187,11 @@
             <a href="upi://pay?pa=901201919@ybl&pn=Jashn-e-Wiladat&am=313&cu=INR" class="pay-btn">📲 Click to Pay ₹313 via GPay / PhonePe / Paytm</a>
         </div>
 
-        <!-- Transaction Ref / UTR Number -->
+        <!-- Payment Screenshot Upload -->
         <div class="form-group">
-            <label for="txn">Payment Reference / UTR No. (Payment karne ke baad Ref/UTR No. zaroor likhein): *</label>
-            <input type="text" id="txn" name="Transaction ID / UTR" placeholder="Payment UTR / Transaction ID yahan likhein">
+            <label for="screenshot">Upload Payment Screenshot: *</label>
+            <input type="file" id="screenshot" name="Payment Screenshot" accept="image/*">
+            <small style="color: #666; font-size: 12px; display: block; margin-top: 4px;">Payment karne ke baad uska screenshot attach karein.</small>
         </div>
 
         <!-- Submit Button -->
@@ -208,7 +211,7 @@ function handleFormSubmit(event) {
     const fname = document.getElementById('fname').value.trim();
     const whatsapp = document.getElementById('whatsapp').value.trim();
     const address = document.getElementById('address').value.trim();
-    const txn = document.getElementById('txn').value.trim();
+    const screenshot = document.getElementById('screenshot').files[0];
     const statusMsg = document.getElementById('statusMsg');
     const submitBtn = document.getElementById('submitBtn');
 
@@ -233,8 +236,8 @@ function handleFormSubmit(event) {
         return;
     }
 
-    if (!txn) {
-        showError("❌ Aapne Payment nahi ki hai ya UTR Number nahi dala hai! Registration complete karne ke liye baraye mehrbani pehle payment karke Transaction/UTR ID yahan likhein.");
+    if (!screenshot) {
+        showError("❌ Aapne Payment Screenshot attach nahi kiya hai! Registration complete karne ke liye payment ka screenshot attach karein.");
         return;
     }
 
@@ -253,7 +256,7 @@ function handleFormSubmit(event) {
     }).then(response => {
         if (response.ok) {
             statusMsg.className = "status-msg status-success";
-            statusMsg.innerText = "🎉 Mubarak ho! Aapka registration safalta-purvak (successfully) submit ho gaya hai.";
+            statusMsg.innerText = "🎉 Mubarak ho apka registration form successfully submit ho gaya hai";
             statusMsg.style.display = "block";
             form.reset();
         } else {
